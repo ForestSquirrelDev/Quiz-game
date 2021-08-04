@@ -18,9 +18,9 @@ Though there is a very popular opinion that clean code doesn't need to be commen
 
 ### Scene management decisions
 
-![image](https://user-images.githubusercontent.com/82777171/128204042-6452ec02-2729-4ce4-9b24-89ceb88bb032.png)
-![image](https://user-images.githubusercontent.com/82777171/128202708-3f24eeee-91fd-4dfc-9061-392c8e2786c3.png)
-![image](https://user-images.githubusercontent.com/82777171/128204221-48f711d8-dc98-4c63-a96e-8075bd006dbf.png)
+![image](https://user-images.githubusercontent.com/82777171/128210987-f4cb1803-4ead-45bd-8096-791ef8970b10.png)
+![image](https://user-images.githubusercontent.com/82777171/128211097-a13fe2c2-3bf8-4832-b239-60bc4492c1dd.png)
+![image](https://user-images.githubusercontent.com/82777171/128211247-f841875c-dd39-40fc-b2b5-3938190c3e54.png)
 
 In order to keep my project structure as clean as possible, i broke vast majority of GameObjects into two logical groups: UI Canvas and Game logic components.
 
