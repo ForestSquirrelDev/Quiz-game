@@ -26,7 +26,7 @@ public class GridGenerator : MonoBehaviour, IGrid
     [SerializeField] private float cellScale = 1.2f;
 
     public GameObject[] Cells { get; private set; }
-    public Cell[] CellInfo { get; private set; }
+    public ICell[] CellInfo { get; private set; }
 
     public int RowLength => rowLength;
     public int ColumnCount => columnCount;
@@ -37,21 +37,21 @@ public class GridGenerator : MonoBehaviour, IGrid
     public void CreateGrid()
     {
         Cells = new GameObject[rowLength * columnCount];
-        CellInfo = new Cell[rowLength * columnCount];
+        CellInfo = new ICell[rowLength * columnCount];
 
         int iteration = 0;
 
         for(int i = 0; i < columnCount; i++)
             for(int j = 0; j < rowLength; j++)
             {
-                GameObject cell = Instantiate(cellTemplate, parent: transform);
+                GameObject cell = Instantiate(original: cellTemplate, parent: this.transform);
 
                 float posX = j * tileScale;
                 float posY = i * -tileScale;
 
                 // Caching two arrays to have an easy access to any cell data and avoid excessive usage of GetComponent<T>().
                 Cells[iteration] = cell;
-                CellInfo[iteration] = cell.GetComponent<Cell>();
+                CellInfo[iteration] = cell.GetComponent<ICell>();
 
                 CellInfo[iteration].Id = iteration;
 
@@ -66,12 +66,12 @@ public class GridGenerator : MonoBehaviour, IGrid
         float gridHeight = rowLength * tileScale;
 
         Vector2 centerOfScreen = new Vector2(-gridHeight / 2 + tileScale / 2,
-                                           gridWidth / 2 - tileScale / 2);
+                                             gridWidth / 2 - tileScale / 2);
 
         transform.position = centerOfScreen;
 
         OnGridCreated?.Invoke();
     }
 
-    public void ResetTransform() => transform.position = new Vector3(0, 0, 0);
+    public void ResetTransform() => transform.position = Vector3.zero;
 }

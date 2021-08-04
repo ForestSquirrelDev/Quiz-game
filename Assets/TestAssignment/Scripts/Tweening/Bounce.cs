@@ -7,7 +7,7 @@ using DG.Tweening;
 /// </summary>
 public class Bounce : MonoBehaviour
 {
-    [Header("'Bounce' tweaking values.")]
+    [Header("Bounce tweaking values.")]
 
     [Range(0.01f, 1.0f)]
     [Tooltip("Mild scale time before edgy punching scale.")]
@@ -32,6 +32,7 @@ public class Bounce : MonoBehaviour
     [SerializeField] private int punchVibrato = 6;
 
     [Range(0.01f, 1.0f)]
+    [Tooltip("DOTween: 'Represents how much the vector will go beyond the starting size when bouncing backwards.'\nNot advised to tweak.")]
     [SerializeField] private float punchElasticity = 1.0f;
 
     private float targetScale = 1.2f;
@@ -64,24 +65,7 @@ public class Bounce : MonoBehaviour
                 StartCoroutine(ApplyBounce(targetScale, cells[i].transform, startScale));
     }
 
-    /// <summary>
-    /// Bounce only main sprite, ignoring template prefab.
-    /// </summary>
-    public void DOLocalBounce(int id) => StartCoroutine(ApplyLocalBounce(id));
-
-    private IEnumerator ApplyLocalBounce(int id)
-    {
-        Transform t = grid.CellInfo[id].MainSpriteRenderer.transform;
-
-        var startScale = t.localScale;
-        t.DOPunchScale(startScale, punchDuration, punchVibrato, 1f);
-
-        yield return new WaitForSeconds(punchDuration * 0.99f);
-
-        t.DOScale(startScale, 2.5f);
-    }
-
-    private IEnumerator ApplyBounce(float targetScale, Transform target, Vector3 startScale) 
+    private IEnumerator ApplyBounce(float targetScale, Transform target, Vector3 startScale)
     {
         target.localScale = startScale;
         target.DOScale(targetScale, scaleDuration);
@@ -94,4 +78,23 @@ public class Bounce : MonoBehaviour
 
         target.DOScale(targetScale, 10f);
     }
+
+    /// <summary>
+    /// Bounce only main sprite, ignoring template prefab.
+    /// </summary>
+    public void DOLocalBounce(int id) => StartCoroutine(ApplyLocalBounce(id));
+
+    private IEnumerator ApplyLocalBounce(int id)
+    {
+        Transform t = grid.CellInfo[id].MainSpriteRenderer.transform;
+
+        var startScale = t.localScale;
+        t.DOPunchScale(startScale, punchDuration, punchVibrato, punchElasticity);
+
+        yield return new WaitForSeconds(punchDuration * 0.99f);
+
+        t.DOScale(startScale, 2.5f);
+    }
+
+    
 }

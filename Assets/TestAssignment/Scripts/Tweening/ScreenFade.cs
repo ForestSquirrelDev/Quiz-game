@@ -8,9 +8,6 @@ using UnityEngine.UI;
 /// </summary>
 public class ScreenFade : MonoBehaviour
 {
-    [Tooltip("Image that will be used as fade-out.")]
-    [SerializeField] private Image blackScreen;
-
     [Tooltip("Duration of fade-out and fade-in effects.")]
     [Range(0.1f, 5.0f)]
     [SerializeField] private float duration = 3.0f;
@@ -18,6 +15,9 @@ public class ScreenFade : MonoBehaviour
     [Range(0.1f, 1.0f)]
     [Tooltip("Target alpha value to tween into. Used for fade-out effect only.")]
     [SerializeField] private float alpha = 1.0f;
+
+    [Tooltip("Image used for fading.")]
+    [SerializeField] private Image blackScreen;
 
     public void FadeIn() => StartCoroutine(FadeIn(duration));
 

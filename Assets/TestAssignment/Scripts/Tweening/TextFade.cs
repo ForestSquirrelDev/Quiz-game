@@ -7,6 +7,12 @@ using DG.Tweening;
 /// </summary>
 public class TextFade : MonoBehaviour
 {
+    [Range(0.1f, 2.0f)]
+    [SerializeField] private float fadeInLength = 1.0f;
+
+    [Range(0.1f, 2.0f)]
+    [SerializeField] private float fadeOutLength = 0.5f;
+
     [SerializeField] private Text text;
 
     private void Start() => FadeTextIn();
