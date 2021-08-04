@@ -25,6 +25,6 @@ Though there is a very popular opinion that clean code doesn't need to be commen
 In order to keep my project structure as clean as possible, i broke vast majority of GameObjects into two logical groups: UI Canvas and Game logic components.
 
 In my code structure i've made an attempt to minimize cross-component dependencies and make classes that only do one particular thing.
-If it's a quiz class, it manages quiz flow, notices all observers about how the quiz is going and it does not care what other classes are doing at the moment (except for the events that the Quiz class is subscribed on). If the class is responsible for some kind of tweening, it only does this particular thing - it tweens. 
+If it's a quiz class, it manages quiz flow, notifies all observers about how the quiz is going and it does not care what other classes are doing at the moment (except for the events that the Quiz class is subscribed on). If the class is responsible for some kind of tweening, it only does this particular thing - it tweens. 
 
 And in the scene hierarchy i've tried to keep this mentality of separating things up so the workflow with this project's architecture could be as convenient as possible.
