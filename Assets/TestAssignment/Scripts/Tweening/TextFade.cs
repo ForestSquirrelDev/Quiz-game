@@ -9,17 +9,9 @@ public class TextFade : MonoBehaviour
 {
     [SerializeField] private Text text;
 
-    private void Start()
-    {
-        FadeTextIn();
-    }
-    public void FadeTextIn()
-    {
-        text.DOFade(1f, 1f);
-    }
+    private void Start() => FadeTextIn();
 
-    public void FadeTextOut()
-    {
-        text.DOFade(0f, .5f);
-    }
+    public void FadeTextIn() => text.DOFade(1f, 1f);
+
+    public void FadeTextOut() => text.DOFade(0f, .5f);
 }

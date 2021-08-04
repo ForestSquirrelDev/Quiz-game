@@ -19,15 +19,9 @@ public class ScreenFade : MonoBehaviour
     [Tooltip("Target alpha value to tween into. Used for fade-out effect only.")]
     [SerializeField] private float alpha = 1.0f;
 
-    public void FadeIn()
-    {
-        StartCoroutine(FadeIn(duration));
-    }
+    public void FadeIn() => StartCoroutine(FadeIn(duration));
 
-    public void FadeOut()
-    {
-        StartCoroutine(FadeOut(duration, alpha));
-    }
+    public void FadeOut() => StartCoroutine(FadeOut(duration, alpha));
 
     private IEnumerator FadeIn(float duration = 2.0f, float alpha = 0f)
     {

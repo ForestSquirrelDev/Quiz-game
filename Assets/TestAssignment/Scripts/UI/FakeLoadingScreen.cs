@@ -8,24 +8,23 @@ public class FakeLoadingScreen : MonoBehaviour
     [SerializeField] private UnityEvent OnFakeLoadingFinished;
     [SerializeField] private Image image;
     [SerializeField] private Image outline;
-    [SerializeField] private float loadingTime = 1.5f;
 
-    public void LoadGame()
-    {
-        StartCoroutine(LoadGameRoutine());
-    }
+    [Range(0.01f, 1f)]
+    [SerializeField] private float loadingTime = 1.0f;
+
+    public void LoadGame() => StartCoroutine(LoadGameRoutine());
 
     private IEnumerator LoadGameRoutine()
     {
         image.gameObject.SetActive(true);
         outline.gameObject.SetActive(true);
 
-        float i = loadingTime;
+        float counter = 0;
 
-        while(i > 0)
+        while(counter <= loadingTime)
         {
-            image.fillAmount = i;
-            i -= Time.fixedDeltaTime;
+            image.fillAmount = counter;
+            counter += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
 

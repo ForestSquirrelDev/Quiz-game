@@ -10,10 +10,7 @@ public class MouseInput : MonoBehaviour, IPlayerInput
 
     public event System.Action<int> OnCellWasClicked;
 
-    private void Update()
-    {
-        HandleInput();
-    }
+    private void Update() => HandleInput();
 
     public void HandleInput()
     {
@@ -25,7 +22,7 @@ public class MouseInput : MonoBehaviour, IPlayerInput
 
             if (hit.collider != null 
                 && !EventSystem.current.IsPointerOverGameObject())
-                    OnCellWasClicked?.Invoke(hit.collider.gameObject.GetComponent<Cell>().Id);
+                    OnCellWasClicked?.Invoke(hit.collider.gameObject.GetComponent<ICell>().Id);
         }
     }
 }

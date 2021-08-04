@@ -8,10 +8,7 @@ public class GameInstaller : MonoInstaller
     [SerializeField] private Quiz quiz;
     [SerializeField] private MouseInput mouseInput;
 
-    public override void InstallBindings()
-    {
-        BindCoreSystems();
-    }
+    public override void InstallBindings() => BindCoreSystems();
 
     private void BindCoreSystems()
     {

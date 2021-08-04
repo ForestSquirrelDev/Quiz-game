@@ -52,7 +52,7 @@ public class Bounce : MonoBehaviour
     private void OnDisable() => quiz.OnCorrectAnswerGiven -= DOLocalBounce;
 
     /// <summary>
-    /// Bounce the whole gameObject.
+    /// Bounce the row of gameObjects on start of the game.
     /// </summary>
     public void DOGeneralBounce()
     {
@@ -67,10 +67,7 @@ public class Bounce : MonoBehaviour
     /// <summary>
     /// Bounce only main sprite, ignoring template prefab.
     /// </summary>
-    public void DOLocalBounce(int id)
-    {
-        StartCoroutine(ApplyLocalBounce(id));
-    }
+    public void DOLocalBounce(int id) => StartCoroutine(ApplyLocalBounce(id));
 
     private IEnumerator ApplyLocalBounce(int id)
     {

@@ -11,7 +11,7 @@ using Zenject;
 public class Quiz : MonoBehaviour
 {
     [SerializeField] private UnityEvent OnQuizCompleted;
-    [SerializeField] private UnityEvent<int> OnWrongAnswer;
+    [SerializeField] private UnityEvent<int> OnWrongAnswerGiven;
 
     public event System.Action<string> OnCorrectAnswerGenerated;
     public event System.Action<int> OnCorrectAnswerGiven;
@@ -19,19 +19,17 @@ public class Quiz : MonoBehaviour
     [Tooltip("If this field is checked, random sprite List is chosen for every new answer.\nIf not, only the first one is picked.")]
     [SerializeField] bool useRandomSprites = true;
 
-    [SerializeField] private List<SpriteContainer> spriteContainers;
-
     [Range(0.01f, 2.0f)]
     [Tooltip("How long to wait for bounce + particles animations to play.")]
     [SerializeField] private float animationWaitTime = 0.8f;
 
-    private int currentSpriteContainer;
-
+    [SerializeField] private List<SpriteContainer> spriteContainers;
     private List<string> knownAnswers = new List<string> { };
+
+    private int currentSpriteContainer;
 
     private bool suspending = false;
 
-    // Used to generate correct answer.
     private int correctCellIndex;
     private string correctCellName;
 
@@ -153,7 +151,7 @@ public class Quiz : MonoBehaviour
         }
         else
         {
-            OnWrongAnswer?.Invoke(answer);
+            OnWrongAnswerGiven?.Invoke(answer);
             yield return new WaitForSeconds(animationWaitTime);
             suspending = false;
         }    

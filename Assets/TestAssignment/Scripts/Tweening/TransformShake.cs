@@ -13,7 +13,12 @@ public class TransformShake : MonoBehaviour
 
     public void DOShakePos(int id)
     {
-        Transform t = grid.CellInfo[id].MainSpriteRenderer.transform;
-        t.DOShakePosition(2.0f, strength: new Vector3(.2f, 0, 0), vibrato: 5, randomness: 0, snapping: false, fadeOut: true);
+        Transform target = grid.CellInfo[id].MainSpriteRenderer.transform;
+        target.DOShakePosition(2.0f,
+                          strength: new Vector3(.2f, 0, 0),
+                          vibrato: 5,
+                          randomness: 0,
+                          snapping: false,
+                          fadeOut: true);
     }
 }

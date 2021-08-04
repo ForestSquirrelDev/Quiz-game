@@ -4,7 +4,7 @@ using UnityEngine.Events;
 /// <summary>
 /// Creates grid of set size and cell scale at the center of screen.
 /// </summary>
-public class GridGenerator : MonoBehaviour
+public class GridGenerator : MonoBehaviour, IGrid
 {
     [SerializeField] private UnityEvent OnGridCreated;
 
@@ -32,10 +32,7 @@ public class GridGenerator : MonoBehaviour
     public int ColumnCount => columnCount;
     public float CellScale => cellScale;
 
-    void Start()
-    {
-        CreateGrid();
-    }
+    private void Start() => CreateGrid();
 
     public void CreateGrid()
     {
@@ -68,14 +65,13 @@ public class GridGenerator : MonoBehaviour
         float gridWidth = columnCount * tileScale;
         float gridHeight = rowLength * tileScale;
 
-        // Placing grid at the center of screen.
-        transform.position = new Vector2(-gridHeight / 2 + tileScale / 2, gridWidth / 2 - tileScale / 2);
+        Vector2 centerOfScreen = new Vector2(-gridHeight / 2 + tileScale / 2,
+                                           gridWidth / 2 - tileScale / 2);
+
+        transform.position = centerOfScreen;
 
         OnGridCreated?.Invoke();
     }
 
-    public void ResetTransform()
-    {
-        transform.position = new Vector3(0, 0, 0);
-    }
+    public void ResetTransform() => transform.position = new Vector3(0, 0, 0);
 }

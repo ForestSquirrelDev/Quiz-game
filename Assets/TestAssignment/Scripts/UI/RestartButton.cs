@@ -4,9 +4,6 @@ using UnityEngine.UI;
 using System.Collections;
 using DG.Tweening;
 
-/// <summary>
-/// This script manages restart button behaviour.
-/// </summary>
 public class RestartButton : MonoBehaviour
 {
     [SerializeField] private UnityEvent OnLevelRestarted;
@@ -19,10 +16,7 @@ public class RestartButton : MonoBehaviour
         restartButton.image.DOFade(1.0f, 1.5f);
     }
 
-    public void RestartLevel()
-    {
-        StartCoroutine(RestartLevelRoutine());
-    }
+    public void RestartLevel() => StartCoroutine(RestartLevelRoutine());
 
     private IEnumerator RestartLevelRoutine()
     {

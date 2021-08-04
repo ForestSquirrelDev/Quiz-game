@@ -5,6 +5,5 @@ using System.Collections.Generic;
 public class SpriteContainer : ScriptableObject
 {
     [SerializeField] private List<Sprite> sprites;
-
     public List<Sprite> Sprites => sprites;
 }
