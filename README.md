@@ -16,7 +16,7 @@ But at the same time relations between components become more and more unobvious
 ### Code comments
 Though there is a very popular opinion that clean code doesn't need to be commented, i tend to believe that a short summary over a class or method, or even few lines of comments can speed up reading the code a lot, especially when this code is far from being perfect.
 
-### Scene management decisions
+### Scene hierarchy management decisions
 
 ![image](https://user-images.githubusercontent.com/82777171/128210987-f4cb1803-4ead-45bd-8096-791ef8970b10.png)
 ![image](https://user-images.githubusercontent.com/82777171/128211097-a13fe2c2-3bf8-4832-b239-60bc4492c1dd.png)
