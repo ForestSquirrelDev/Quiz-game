@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using DG.Tweening;
 using UnityEngine.UI;
 
@@ -19,21 +18,26 @@ public class ScreenFade : MonoBehaviour
     [Tooltip("Image used for fading.")]
     [SerializeField] private Image blackScreen;
 
-    public void FadeIn() => StartCoroutine(FadeIn(duration));
-
-    public void FadeOut() => StartCoroutine(FadeOut(duration, alpha));
-
-    private IEnumerator FadeIn(float duration = 2.0f, float alpha = 0f)
+    public void FadeIn()
     {
-        blackScreen.DOFade(alpha, duration);
-        yield return new WaitForSeconds(duration);
-        blackScreen.gameObject.SetActive(false);
+        Sequence fadeSeq = DOTween.Sequence();
+        TweenCallback disabler = DisableScreen;
+
+        fadeSeq.Append(blackScreen.DOFade(0f, duration));
+        fadeSeq.InsertCallback(duration, disabler);
     }
 
-    private IEnumerator FadeOut(float duration = 2.0f, float alpha = 1.0f)
+    public void FadeOut()
     {
-        blackScreen.gameObject.SetActive(true);
-        blackScreen.DOFade(alpha, duration);
-        yield return new WaitForSeconds(duration);
+        Sequence fadeSeq = DOTween.Sequence();
+        TweenCallback enabler = EnableScreen;
+
+        fadeSeq.AppendCallback(enabler);
+        fadeSeq.Append(blackScreen.DOFade(alpha, duration));
     }
+
+    private void EnableScreen() => blackScreen.gameObject.SetActive(true);
+
+    private void DisableScreen() => blackScreen.gameObject.SetActive(false);
+
 }

@@ -17,7 +17,17 @@ public class TextFade : MonoBehaviour
 
     private void Start() => FadeTextIn();
 
-    public void FadeTextIn() => text.DOFade(1f, 1f);
+    public void FadeTextIn()
+    {
+        Sequence fadeSeq = DOTween.Sequence();
 
-    public void FadeTextOut() => text.DOFade(0f, .5f);
+        fadeSeq.Append(text.DOFade(1.0f, fadeInLength));
+    }
+
+    public void FadeTextOut()
+    {
+        Sequence fadeSeq = DOTween.Sequence();
+
+        fadeSeq.Append(text.DOFade(0f, fadeOutLength));
+    }
 }

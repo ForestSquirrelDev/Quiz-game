@@ -149,11 +149,10 @@ public class Quiz : MonoBehaviour
                 GenerateNewQuestion();
             } 
         }
-        else
+        else if(!suspending)
         {
             OnWrongAnswerGiven?.Invoke(answer);
             yield return new WaitForSeconds(animationWaitTime);
-            suspending = false;
         }    
     }
 }

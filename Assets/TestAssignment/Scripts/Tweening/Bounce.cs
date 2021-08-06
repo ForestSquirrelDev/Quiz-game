@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 
 /// <summary>
@@ -11,11 +11,11 @@ public class Bounce : MonoBehaviour
 
     [Range(0.01f, 1.0f)]
     [Tooltip("Mild scale time before edgy punching scale.")]
-    [SerializeField] private float scaleDuration = 0.2f;
+    [SerializeField] private float scaleDuration = 0.106f;
 
     [Range(0.01f, 1.0f)]
     [Tooltip("How much seconds to wait before using punchScale (only for prefab punching).")]
-    [SerializeField] private float waitTime = 0.11f;
+    [SerializeField] private float waitTime = 0.101f;
 
     [Tooltip("Default scale of sprite prefab before any manipulations.")]
     [SerializeField] private Vector3 startScale = Vector3.zero;
@@ -25,18 +25,20 @@ public class Bounce : MonoBehaviour
     
     [Range(0.01f, 2.0f)]
     [Tooltip("Length of 'bounce' effect")]
-    [SerializeField] private float punchDuration = 0.99f;
+    [SerializeField] private float punchDuration = 0.811f;
 
     [Range(1,10)]
     [Tooltip("Amount of craziness for bounce")]
-    [SerializeField] private int punchVibrato = 6;
+    [SerializeField] private int punchVibrato = 4;
 
     [Range(0.01f, 1.0f)]
     [Tooltip("DOTween: 'Represents how much the vector will go beyond the starting size when bouncing backwards.'\nNot advised to tweak.")]
     [SerializeField] private float punchElasticity = 1.0f;
 
-    private float targetScale = 1.2f;
+    private List<int> runningTweens = new List<int> { };
 
+    private float targetScale = 1.2f;
+    
     private GridGenerator grid;
     private Quiz quiz;
     private GameObject[] cells;
@@ -53,7 +55,7 @@ public class Bounce : MonoBehaviour
     private void OnDisable() => quiz.OnCorrectAnswerGiven -= DOLocalBounce;
 
     /// <summary>
-    /// Bounce the row of gameObjects on start of the game.
+    /// Bounce the row of gameObjects at start of the game.
     /// </summary>
     public void DOGeneralBounce()
     {
@@ -62,39 +64,39 @@ public class Bounce : MonoBehaviour
 
         for(int i = 0; i < cells.Length; i++)
             if(cells[i].gameObject.activeSelf)
-                StartCoroutine(ApplyBounce(targetScale, cells[i].transform, startScale));
+                ApplyGeneralBounce(targetScale, cells[i].transform, startScale);
     }
 
-    private IEnumerator ApplyBounce(float targetScale, Transform target, Vector3 startScale)
+    private void ApplyGeneralBounce(float targetScale, Transform target, Vector3 startScale)
     {
         target.localScale = startScale;
-        target.DOScale(targetScale, scaleDuration);
 
-        yield return new WaitForSeconds(waitTime);
+        Sequence bounceSeq = DOTween.Sequence();
 
-        target.DOPunchScale(punchScale, punchDuration, punchVibrato, punchElasticity);
-
-        yield return new WaitForSeconds(punchDuration);
-
-        target.DOScale(targetScale, 10f);
+        bounceSeq.Append(target.DOScale(targetScale, scaleDuration));
+        bounceSeq.Insert(waitTime, target.DOPunchScale(punchScale, punchDuration, punchVibrato, punchElasticity));
+        bounceSeq.Insert(waitTime + punchDuration, target.DOScale(targetScale, 10f));
     }
 
     /// <summary>
     /// Bounce only main sprite, ignoring template prefab.
     /// </summary>
-    public void DOLocalBounce(int id) => StartCoroutine(ApplyLocalBounce(id));
-
-    private IEnumerator ApplyLocalBounce(int id)
+    public void DOLocalBounce(int id)
     {
-        Transform t = grid.CellInfo[id].MainSpriteRenderer.transform;
+        if(!runningTweens.Contains(id))
+        {
+            runningTweens.Add(id);
 
-        var startScale = t.localScale;
-        t.DOPunchScale(startScale, punchDuration, punchVibrato, punchElasticity);
+            Transform target = grid.CellInfo[id].MainSpriteRenderer.transform;
+            Vector3 startScale = target.localScale;
 
-        yield return new WaitForSeconds(punchDuration * 0.99f);
+            Sequence bounceSeq = DOTween.Sequence();
 
-        t.DOScale(startScale, 2.5f);
+            bounceSeq.Append(target.DOPunchScale(startScale, punchDuration, punchVibrato, punchElasticity));
+            bounceSeq.Insert(punchDuration * .99f, target.DOScale(startScale, 2.5f));
+            bounceSeq.OnComplete(() => AllowSequence(id));
+        }
     }
 
-    
+    private void AllowSequence(int tweenId) => runningTweens.Remove(tweenId);
 }

@@ -36,6 +36,7 @@ public class GridGenerator : MonoBehaviour, IGrid
 
     public void CreateGrid()
     {
+        // Caching two arrays to have an easy access to any cell data and avoid excessive usage of GetComponent<T>().
         Cells = new GameObject[rowLength * columnCount];
         CellInfo = new ICell[rowLength * columnCount];
 
@@ -49,7 +50,6 @@ public class GridGenerator : MonoBehaviour, IGrid
                 float posX = j * tileScale;
                 float posY = i * -tileScale;
 
-                // Caching two arrays to have an easy access to any cell data and avoid excessive usage of GetComponent<T>().
                 Cells[iteration] = cell;
                 CellInfo[iteration] = cell.GetComponent<ICell>();
 
@@ -65,8 +65,9 @@ public class GridGenerator : MonoBehaviour, IGrid
         float gridWidth = columnCount * tileScale;
         float gridHeight = rowLength * tileScale;
 
-        Vector2 centerOfScreen = new Vector2(-gridHeight / 2 + tileScale / 2,
-                                             gridWidth / 2 - tileScale / 2);
+        Vector3 centerOfScreen = new Vector3(x: -gridHeight / 2 + tileScale / 2,
+                                             y: gridWidth / 2 - tileScale / 2,
+                                             z: 0.5f); // Placing grid behind the background image to add fancy transparency effect.
 
         transform.position = centerOfScreen;
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 using DG.Tweening;
 
 /// <summary>
@@ -17,6 +18,8 @@ public class TransformShake : MonoBehaviour
 
     [SerializeField] Vector3 strength = new Vector3(0.2f, 0f, 0f);
 
+    private List<int> runningTweens = new List<int> { };
+
     private GridGenerator grid;
 
     [Zenject.Inject]
@@ -24,7 +27,23 @@ public class TransformShake : MonoBehaviour
 
     public void DOShakePos(int id)
     {
-        Transform target = grid.CellInfo[id].MainSpriteRenderer.transform;
-        target.DOShakePosition(duration, strength, vibrato, randomness, snapping: false, fadeOut: true);
+        if(!runningTweens.Contains(id))
+        {
+            runningTweens.Add(id);
+
+            Transform target = grid.CellInfo[id].MainSpriteRenderer.transform;
+            Sequence shakeSeq = DOTween.Sequence();
+
+            shakeSeq.Append(target.DOShakePosition(duration,
+                                                   strength,
+                                                   vibrato,
+                                                   randomness,
+                                                   snapping: false,
+                                                   fadeOut: true));
+
+            shakeSeq.OnComplete(() => AllowSequence(id));
+        }
     }
+
+    private void AllowSequence(int tweenId) => runningTweens.Remove(tweenId);
 }
