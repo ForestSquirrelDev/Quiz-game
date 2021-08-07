@@ -3,7 +3,7 @@ https://user-images.githubusercontent.com/82777171/128170297-169ab18b-9770-4dcb-
 
 
 # Download Unitypackage
-- [Link](https://github.com/ForestSquirrelDev/TestAssignment/blob/master/Packages/LZ-TestAssignment.unitypackage) - this version is slightly adjusted for default PC build settings. Original project was made with Android build settings
+- [Link](https://github.com/ForestSquirrelDev/TestAssignment/blob/master/Packages/QuizGame.unitypackage) - this version is slightly adjusted for default PC build settings. Original project was made with Android build settings
 
 ## Few short remarks
 ### Events
