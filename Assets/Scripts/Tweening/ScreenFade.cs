@@ -23,23 +23,18 @@ namespace QuizGame.Tweening
         public void FadeIn()
         {
             Sequence fadeSeq = DOTween.Sequence();
-            TweenCallback disabler = DisableScreen;
 
             fadeSeq.Append(blackScreen.DOFade(0f, duration));
-            fadeSeq.InsertCallback(duration, disabler);
+            fadeSeq.InsertCallback(duration,
+                                   () => blackScreen.gameObject.SetActive(false));
         }
 
         public void FadeOut()
         {
             Sequence fadeSeq = DOTween.Sequence();
-            TweenCallback enabler = EnableScreen;
 
-            fadeSeq.AppendCallback(enabler);
+            fadeSeq.AppendCallback(() => blackScreen.gameObject.SetActive(true));
             fadeSeq.Append(blackScreen.DOFade(alpha, duration));
         }
-
-        private void EnableScreen() => blackScreen.gameObject.SetActive(true);
-
-        private void DisableScreen() => blackScreen.gameObject.SetActive(false);
     }
 }

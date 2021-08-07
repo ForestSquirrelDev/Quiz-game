@@ -94,14 +94,12 @@ namespace QuizGame.Tweening
                 Vector3 startScale = target.localScale;
 
                 Sequence bounceSeq = DOTween.Sequence();
-                TweenCallback<int> allower = AllowSequence;
 
                 bounceSeq.Append(target.DOPunchScale(startScale, punchDuration, punchVibrato, punchElasticity));
                 bounceSeq.Insert(punchDuration * .99f, target.DOScale(startScale, 2.5f));
-                bounceSeq.InsertCallback(punchDuration * .99f, () => allower(id));
+                bounceSeq.InsertCallback(punchDuration * .99f,
+                                         () => runningTweens.Remove(id));
             }
         }
-
-        private void AllowSequence(int tweenId) => runningTweens.Remove(tweenId);
     }
 }
