@@ -44,10 +44,8 @@ namespace QuizGame.Tweening
                                                        snapping: false,
                                                        fadeOut: true));
 
-                shakeSeq.OnComplete(() => AllowSequence(id));
+                shakeSeq.OnComplete(() => runningTweens.Remove(id));
             }
         }
-
-        private void AllowSequence(int tweenId) => runningTweens.Remove(tweenId);
     }
 }
